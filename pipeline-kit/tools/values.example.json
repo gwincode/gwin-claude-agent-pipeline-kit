@@ -1,0 +1,14 @@
+{
+  "PROJECT_NAME": "Acme Notes",
+  "REPO": "acme/notes",
+  "STAGING_BRANCH": "staging",
+  "PROD_BRANCH": "main",
+  "DEPLOY_HOST": "Netlify",
+  "SMOKE_URL": "https://notes.example.com",
+  "TEST_COMMAND": "npm test",
+  "MOCKUP_DIR": "docs/mockups",
+  "HANDOFF_FILE": "HANDOFF.md",
+  "HANDOFF_MAX_LINES": "250",
+  "TIMEZONE": "America/New_York",
+  "HOUSEKEEPING_NOTE": null
+}

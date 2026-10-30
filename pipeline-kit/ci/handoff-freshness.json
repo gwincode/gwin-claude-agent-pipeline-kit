@@ -1,0 +1,15 @@
+{
+  "handoffFile": "{{HANDOFF_FILE}}",
+  "workingBranch": "{{STAGING_BRANCH}}",
+  "compareBranch": "{{PROD_BRANCH}}",
+  "divergenceMode": "warn",
+  "timezone": "{{TIMEZONE}}",
+  "exemptPaths": [
+    "{{HANDOFF_FILE}}",
+    ".github/handoff-freshness.json",
+    ".github/workflows/handoff-freshness.yml",
+    "scripts/check-handoff-freshness.py",
+    "scripts/test-handoff-freshness.sh"
+  ],
+  "maxLines": 250
+}

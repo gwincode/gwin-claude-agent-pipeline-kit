@@ -1,0 +1,45 @@
+name: Handoff freshness
+
+# OPTIONAL gate from the portable agent-pipeline kit. Copy this file to
+# .github/workflows/handoff-freshness.yml. That write needs a token with the
+# GitHub "Workflows" permission; see pipeline-kit/ci/README.md.
+#
+# Gate, not a convention: the handoff file goes stale when rewriting it is a
+# manual last-step habit with nothing checking it. Runs on every PR into the
+# working or production branch. Keep it in its own workflow so it never queues
+# behind a slow test workflow.
+
+on:
+  pull_request:
+    branches: ["{{STAGING_BRANCH}}", "{{PROD_BRANCH}}"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: handoff-freshness-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  handoff-freshness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Check out the PR head itself, not the merge preview: the question is
+      # whether the author's branch carries a current handoff, and reading the
+      # merge commit would silently answer it with the base branch's file.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      # merge-base needs the base branch, and the divergence half needs both
+      # the working and production branches regardless of what this PR targets.
+      - name: Fetch base and comparison branches
+        run: git fetch --no-tags --quiet origin '+refs/heads/*:refs/remotes/origin/*'
+
+      - name: Check handoff freshness
+        env:
+          HANDOFF_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HANDOFF_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: python3 scripts/check-handoff-freshness.py

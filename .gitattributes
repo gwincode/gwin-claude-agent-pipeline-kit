@@ -1,0 +1,7 @@
+# Keep scripts and JSON with Unix line endings on every OS, so the shell and
+# Python helpers still run after a clone on Windows.
+* text=auto
+*.sh text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
