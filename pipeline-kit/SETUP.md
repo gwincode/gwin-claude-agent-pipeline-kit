@@ -263,7 +263,8 @@ tools only.
 Start a **fresh** Claude Code session in the repo (settings load at session start), then check:
 
 - [ ] `/agents` lists `po`, `code`, `qa`, `reviewer`, with models `claude-opus-5-5`, `claude-sonnet-5-5`,
-  `claude-sonnet-5-5`, `claude-sonnet-5-5` (on Bedrock, Vertex or Foundry, your provider's IDs).
+  `claude-sonnet-5-5`, `claude-sonnet-5-5` (on Bedrock, Vertex or Foundry, your provider's IDs), and that each
+  agent file has the `effort:` line from README → *Model and effort* (`po` high; the others medium).
 - [ ] Typing `/` shows `/feature`, `/promote`, `/status`, `/discover`.
 - [ ] `/status` prints `0 open · 0 waiting on owner · no headroom: none · checkpoint due: none · hard stop: none`
       and `No feature entries in {{HANDOFF_FILE}} …` (on a fresh template).

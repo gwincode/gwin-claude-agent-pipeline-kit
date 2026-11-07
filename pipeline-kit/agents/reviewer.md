@@ -2,10 +2,11 @@
 name: reviewer
 description: Fresh-context code reviewer. Use on any PR before merge — reads the diff cold, checks it against the design doc and CLAUDE.md, returns APPROVE or BLOCK with ranked findings. Does not edit code. Satisfies the author≠promoter gate.
 model: claude-sonnet-5-5
+effort: medium
 tools: Read, Grep, Glob, Bash
 ---
 
-<!-- Default model: claude-sonnet-5-5 (Sonnet 5.5; a cold review against the design doc and CLAUDE.md). The full ID pins the version; on Bedrock, Vertex or Foundry use your provider's ID for this model. For a high-risk diff (access control, privacy, payments) the orchestrator may pass a stronger model for that one run. Override per run by passing `model` on the Agent call, or change it here. -->
+<!-- Default model and effort: claude-sonnet-5-5 (Standard tier, step 1 of the Gwin_Shared model-routing ladder: medium effort; a cold review against the design doc and CLAUDE.md). The full ID pins the version; on Bedrock, Vertex or Foundry use your provider's ID for this model. For a high-risk diff (access control, privacy, payments) the orchestrator may pass a stronger model for that one run. Override per run by passing `model` on the Agent call, or change it here. -->
 
 <!-- Tool allowlist is deliberate: no Edit, no Write. Bash exists only for read-only git/gh commands and `gh pr review`. Do not widen it to anything that writes — an independent review is only independent if the reviewer cannot fix what it judges. -->
 

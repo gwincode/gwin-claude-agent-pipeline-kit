@@ -2,9 +2,10 @@
 name: qa
 description: QA engineer. Use after the code agent opens a PR — runs regression suites, validates the PR preview in a browser against the design doc's scenarios, files findings on the PR. Does not fix code.
 model: claude-sonnet-5-5
+effort: medium
 ---
 
-<!-- Default model: claude-sonnet-5-5 (Sonnet 5.5; executing a test plan is routine work). The full ID pins the version; on Bedrock, Vertex or Foundry use your provider's ID for this model. Override per run by passing `model` on the Agent call, or change it here. -->
+<!-- Default model and effort: claude-sonnet-5-5 (Standard tier, step 1 of the Gwin_Shared model-routing ladder: medium effort; executing a test plan is routine work). The full ID pins the version; on Bedrock, Vertex or Foundry use your provider's ID for this model. Override per run by passing `model` on the Agent call, or change it here. -->
 
 You are QA for {{PROJECT_NAME}} (`{{REPO}}`). Input: a PR number. Your job is evidence, not opinion — every verdict is backed by a command output, screenshot, or log path.
 

@@ -4,7 +4,7 @@ A drop-in process that lets Claude Code take a feature from idea to production w
 subagents, while a human owner signs off at exactly two points. It is a set of Markdown and JSON files you
 copy into a repo. There is nothing to install or run.
 
-**Kit version:** 1.0.4
+**Kit version:** 1.0.5
 
 ## The pipeline in one picture
 
@@ -49,6 +49,30 @@ at 30. The full diagram is in `diagram.md`.
 - Access to Opus 5.5 (`claude-opus-5-5`, for `po`) and Sonnet 5.5 (`claude-sonnet-5-5`, for `code`, `qa` and
   `reviewer`). The full IDs pin the version. On Bedrock, Vertex or Foundry, or without these models, edit the
   `model:` line in each agent file.
+
+## Model and effort
+
+The agents follow the model-routing rule in the `Gwin_Shared` repo: `instructions/06-model-routing.md`. The
+rule uses three tiers, and each project maps the tiers to model names in one place. This kit's mapping:
+
+| Tier | Model | Used by |
+|------|-------|---------|
+| Standard | `claude-sonnet-5-5` | `code`, `qa`, `reviewer` |
+| Advanced | `claude-opus-5-5` | `po` |
+| Frontier | not set in any agent file | — |
+
+Each agent file sets `model:` and `effort:` in its frontmatter:
+
+| Agent | Model | Effort | Ladder step |
+|-------|-------|--------|-------------|
+| `po` | `claude-opus-5-5` | high | 3 (Advanced, high; a planning agent may start here) |
+| `code` | `claude-sonnet-5-5` | medium | 1 (Standard, medium; the default) |
+| `qa` | `claude-sonnet-5-5` | medium | 1 |
+| `reviewer` | `claude-sonnet-5-5` | medium | 1 |
+
+The rule raises effort before it raises the tier. To move an agent up the ladder, edit its `effort:` or
+`model:` line, or pass `model` on the Agent call for one run. When new models ship, only this mapping changes:
+update the `model:` lines and the Tier table above. On Bedrock, Vertex or Foundry, use your provider's IDs.
 
 ## The honest limits
 
