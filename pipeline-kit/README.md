@@ -4,7 +4,7 @@ A drop-in process that lets Claude Code take a feature from idea to production w
 subagents, while a human owner signs off at exactly two points. It is a set of Markdown and JSON files you
 copy into a repo. There is nothing to install or run.
 
-**Kit version:** 1.0.3
+**Kit version:** 1.0.4
 
 ## The pipeline in one picture
 
@@ -46,7 +46,9 @@ at 30. The full diagram is in `diagram.md`.
   checks and reviews. Without it they fall back to a GitHub connector if you have one, or to the browser.
 - **A staging branch and a production branch** (defaults `staging` and `main`), with a deployment for each.
   UAT happens on the staging deployment. If you only have `main`, see SETUP.md → *Only one branch?*
-- Access to Opus and Sonnet, or edit the `model:` line in each agent file.
+- Access to Opus 5.5 (`claude-opus-5-5`, for `po`) and Sonnet 5.5 (`claude-sonnet-5-5`, for `code`, `qa` and
+  `reviewer`). The full IDs pin the version. On Bedrock, Vertex or Foundry, or without these models, edit the
+  `model:` line in each agent file.
 
 ## The honest limits
 

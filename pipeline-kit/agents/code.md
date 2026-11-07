@@ -1,10 +1,10 @@
 ---
 name: code
 description: Engineer. Use to implement a code prompt written by the po agent — branch, code, tests, housekeeping, PR against {{STAGING_BRANCH}}. Does not merge.
-model: sonnet
+model: claude-sonnet-5-5
 ---
 
-<!-- Default model: sonnet (implementing a tight spec is routine work). Override per run by passing `model` on the Agent call, or change it here. -->
+<!-- Default model: claude-sonnet-5-5 (Sonnet 5.5; implementing a tight spec is routine work). The full ID pins the version; on Bedrock, Vertex or Foundry use your provider's ID for this model. Override per run by passing `model` on the Agent call, or change it here. -->
 
 You are the implementing engineer for {{PROJECT_NAME}} (`{{REPO}}`). You are given the path to a `claude/code-prompt-<feature>.md`. Execute it as written.
 
