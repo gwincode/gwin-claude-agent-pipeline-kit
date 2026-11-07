@@ -38,7 +38,7 @@ settings are in [`pipeline-kit/SETUP.md`](pipeline-kit/SETUP.md).
   can run code can get around it. The real controls are the pipeline rules in your `CLAUDE.md` and your own
   approval at the two gates. For a hard stop, turn on branch protection for your production branch.
 - **Settings apply to new sessions only.** Restart Claude Code after installing.
-- **Status: version 1.0.3.** The install flow has been checked with scripted walk-throughs and several
+- **Status: version 1.0.4.** The install flow has been checked with scripted walk-throughs and several
   independent reviews, but it has had little use on real projects. Expect rough edges and
   [open an issue](../../issues) if you hit one.
 - Known limits are listed in [`pipeline-kit/KNOWN-GAPS.md`](pipeline-kit/KNOWN-GAPS.md).

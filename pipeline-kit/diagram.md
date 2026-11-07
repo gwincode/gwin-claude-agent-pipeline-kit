@@ -19,12 +19,12 @@ flowchart TB
     classDef stop fill:#fee2e2,stroke:#b91c1c,color:#000
 
     K["👤 /feature<br/>idea · must · must-not · revenue · size"]:::owner
-    PO["🤖 po  (opus)<br/>competitive research · engagement + revenue hypotheses<br/>design doc · HTML mockups · regression scenarios · code prompt"]:::agent
+    PO["🤖 po  (Opus 5.5)<br/>competitive research · engagement + revenue hypotheses<br/>design doc · HTML mockups · regression scenarios · code prompt"]:::agent
     CHK1["🎛️ orchestrator pre-check<br/>return trigger? revenue lever? dated citations?<br/>mockups not a form?"]:::orch
     G1{{"👤 GATE 1<br/>approve design + mockups<br/>+ regression scenarios"}}:::owner
-    CODE["🤖 code  (sonnet)<br/>branch off staging · merge origin/main<br/>build to mockups · gates · housekeeping · rewrite handoff<br/>PR → staging"]:::agent
-    QA["🤖 qa  (sonnet)<br/>suites · browser on PR preview<br/>every mockup state · evidence in qa/‹n›/<br/>PR comment"]:::agent
-    REV["🤖 reviewer  (opus · read-only)<br/>cold diff · access control twice · scope vs mockups<br/>review via gh"]:::agent
+    CODE["🤖 code  (Sonnet 5.5)<br/>branch off staging · merge origin/main<br/>build to mockups · gates · housekeeping · rewrite handoff<br/>PR → staging"]:::agent
+    QA["🤖 qa  (Sonnet 5.5)<br/>suites · browser on PR preview<br/>every mockup state · evidence in qa/‹n›/<br/>PR comment"]:::agent
+    REV["🤖 reviewer  (Sonnet 5.5 · read-only)<br/>cold diff · access control twice · scope vs mockups<br/>review via gh"]:::agent
     V1["🎛️ verify artifacts, not claims<br/>CI green · review visible · qa evidence exists<br/>handoff under ceiling · no owner click"]:::orch
     M1["⚙️ merge → staging<br/>staging deploy"]:::sys
     UATP["🎛️ staging READY → write UAT checklist<br/>(scenarios + mockup states, URL per screen)<br/>handoff ← Awaiting owner UAT"]:::orch
