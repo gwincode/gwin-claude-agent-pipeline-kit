@@ -62,8 +62,9 @@ work nobody has done yet.
    (`mcp__<server-id>__<tool>`). The kit ships no connector rules; you add your own (SETUP.md →
    *Adding MCP connector rules*). A different client or account may spell the same connector differently, so
    a rule written for one session may silently not match in another.
-4. **Models and cost.** `po` defaults to Opus 5.5 (`claude-opus-5-5`); `code`, `qa` and `reviewer` default
-   to Sonnet 5.5 (`claude-sonnet-5-5`). A normal feature is 5–6 agent runs; the default ceiling is 30 per
+4. **Models and cost.** `po` defaults to Advanced: Opus 5.5 (`claude-opus-5-5`) at high effort; `code`, `qa`
+   and `reviewer` default to Standard: Sonnet 5.5 (`claude-sonnet-5-5`) at medium effort (README → *Model and
+   effort*). A normal feature is 5–6 agent runs; the default ceiling is 30 per
    feature. Opus runs are the expensive ones, including any one-run model upgrade the orchestrator makes.
    The full IDs pin the version, so a new model release does not change them; update the `model:` lines
    yourself when you want a newer model. On Bedrock, Vertex or Foundry the IDs can differ; use your
