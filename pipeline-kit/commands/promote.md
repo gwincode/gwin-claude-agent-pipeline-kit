@@ -22,7 +22,7 @@ Follow `CLAUDE.md` → *Agent pipeline* → *Promotion to `{{PROD_BRANCH}}`* exa
 1. Confirm the previous promotion is production-verified (per `{{HANDOFF_FILE}}` and the last promotion PR). If it isn't, stop and say what is missing.
 2. Mark the entry `— Promoting`. Open the promotion PR `{{STAGING_BRANCH}} → {{PROD_BRANCH}}` per the repo's existing promotion convention.
 3. Gates: CI green (`gh pr checks` when available; otherwise the PR's Checks tab in a browser) · a fresh-context `reviewer` on the promotion PR (counts against `agents`) · no second `qa` unless the promotion diff differs from what was UAT'd — if it does, say how and run `qa`.
-4. Merge. Confirm the {{DEPLOY_HOST}} production deployment is `READY`, then spot-check {{SMOKE_URL}}.
+4. Merge. Confirm the {{DEPLOY_HOST}} production deployment is `READY`, then spot-check {{SMOKE_URL}}. If `{{DEPLOY_HOST}}` is `none`, skip the `READY` check; if `{{SMOKE_URL}}` is `none`, skip the smoke check. Say in your summary which were skipped and why; a skipped step is not a failure and never a reason to wait.
 5. If the project tracks a backlog item for the feature, mark it shipped (per `CLAUDE.md`; prepare the change and confirm with the owner if it needs a write you can't make).
 6. Prune the feature's `{{HANDOFF_FILE}}` entry (it is shipped and production-verified) and rewrite the top-of-file repo state.
 

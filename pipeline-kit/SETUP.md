@@ -43,7 +43,7 @@ does this for you (`INSTALL-PROMPT.md` step 4); by hand it is:
 1. **Detect the tool.** `package-lock.json` → npm; `pnpm-lock.yaml` → pnpm; `yarn.lock` → yarn (berry if
    there is a `.yarnrc.yml` or `"packageManager": "yarn@2+"`, otherwise v1). Anything else (bun, uv,
    pipenv, poetry, pdm, hatch, cargo, make, or no `package.json`) is **not supported**: add nothing, and
-   every command asks. **A conflict is not supported either:** two or more lockfiles, or a
+   every command asks. Python, Rust and Make projects get no project-command rules by design. Every command asks. **A conflict is not supported either:** two or more lockfiles, or a
    `packageManager` field naming a different tool than the lockfile (`pnpm@9` with `package-lock.json`).
    You can't be sure which tool really runs, so add nothing.
 2. **Pick at most one script per job** from `package.json` → `scripts`: build (`build`), lint (`lint`),
@@ -107,7 +107,8 @@ any code**, the same as approving `node`, and can reach `git push` or `gh` aroun
 what you'd approve every time anyway.
 
 `{{TEST_COMMAND}}` is only text in the agent instructions (the detected test command, e.g. `yarn run test`).
-It never becomes an allow rule.
+It never becomes an allow rule. This holds for Python, Rust and Make projects too: set it to `pytest`,
+`cargo test` or `make test` and the agents still read it as text, and each run asks first.
 
 The concrete `npm publish`/`unpublish`/`exec`/`token`/`access`/`owner`, `pnpm publish`/`dlx`,
 `yarn publish`/`dlx`/`npm publish`, `npx`, `pnpx`, `bunx`, `uvx`, `uv publish`, `uv tool run`, `pip install`,
@@ -117,11 +118,18 @@ never match an exact `run <name>` line, so they don't interfere with yours.
 Interpreters and fetchers (`node`, `python`/`python3`, `curl`, `wget`, `docker`, `make`) are explicit `ask`:
 each one can run anything, so allowing one would void every other rule.
 
+### No deploy host (a repo that never deploys)
+
+A library, plugin or CLI has no preview, staging or production deployment. Set `{{DEPLOY_HOST}}` to `none`
+and `{{SMOKE_URL}}` to `none`. `qa`, `/feature` and `/promote` then skip the preview URL, the `READY`
+deployment checks and the smoke check, and say so in their output; UAT is a local run per `CLAUDE.md`.
+
 ### Only one branch?
 
 `{{STAGING_BRANCH}}` and `{{PROD_BRANCH}}` must be different branches. Setting both to `main` breaks the
 model: every PR would merge straight to production with no UAT surface, and the settings would deny pushes
-the pipeline needs. Pick one:
+the pipeline needs. A repo that never deploys (`{{DEPLOY_HOST}}` = `none`) has no UAT surface to point a deployment at: keep
+`{{STAGING_BRANCH}}` as a long-lived integration branch and run UAT locally. Otherwise pick one:
 
 1. **Recommended: create a staging branch.** You do this yourself; the install never pushes a branch.
    `git switch -c staging origin/main && git push origin staging`, point a deployment at it (most hosts call this a branch or preview deployment), and make it the default PR
@@ -207,7 +215,7 @@ beats `allow`. Some existing rules conflict with the kit, so check for them:
 **An existing `## Agent pipeline` heading in `CLAUDE.md`** (any section with that name): don't append a
 second one. Compare the two, merge the kit's rules into yours by hand, and keep one heading.
 
-**An existing handoff file** needs three things the gate and `/status` read: a `**Last updated:** YYYY-MM-DD`
+**An existing handoff file** (the gate also accepts the plain `Last updated: YYYY-MM-DD` form without bold markers, and `/status` never reads that line) needs three things the gate and `/status` read: a `**Last updated:** YYYY-MM-DD`
 line, a `**Divergence:**` line, and feature entries in the `## <feature> — <State>` + `Loops:` format
 (`handoff-example.md`). Add what's missing; keep everything else.
 

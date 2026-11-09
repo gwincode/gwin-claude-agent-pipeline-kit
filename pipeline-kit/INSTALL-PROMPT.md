@@ -16,13 +16,21 @@ Install the agent pipeline kit in this repository. The kit is in `pipeline-kit/`
    `pyproject.toml`, `Makefile`), the deploy host (`vercel.json`, `netlify.toml`, `fly.toml`, workflow
    files), an existing `HANDOFF.md`, `CLAUDE.md`, `.claude/agents/`, `.claude/commands/`,
    `.claude/settings.json`, and an existing changelog or version file.
+   Also check two things the `po` agent needs: does `CLAUDE.md` have a project description, and does
+   `README` say who the product is for and why it is different? If both are missing, tell me, and offer
+   `/init` after the install, not before. `/init` is never a requirement: this install creates or appends
+   `CLAUDE.md` itself.
 
 3. **Interview me once.** In a single message, list every placeholder from the `SETUP.md` table with your
    proposed value (detected, or the table's default), and ask me to confirm or correct them all at once.
    Also ask: whether to install the optional CI gate, and whether to install `diagram.md`. If the repo has
    no staging branch, say so and recommend option 1 in `SETUP.md` → *Only one branch?*; never set the
    staging and production branches to the same value. For `TEST_COMMAND`, propose the test command you
-   found in step 4 (or `none`); it is only text for the agents, never a permission. Do step 4's detection
+   found in step 4 (or `none`); it is only text for the agents, never a permission. For `TIMEZONE`,
+   propose a value read from the machine, never assume it. Try, in this order: the `TZ` variable;
+   `/etc/timezone`; `readlink /etc/localtime`; `timedatectl`; and last `date +%Z`. Prefer a real IANA
+   name (for example `Europe/Berlin`). `date +%Z` gives only an abbreviation (for example `PST`), which is
+   not an IANA zone; use it only if nothing else works. If all fail, propose `UTC`. Do step 4's detection
    and scan before you write this message, and put its summary (4d) in it, so I answer everything once. Wait for my answer. Don't ask again unless an answer
    is contradictory.
 
@@ -92,11 +100,15 @@ Install the agent pipeline kit in this repository. The kit is in `pipeline-kit/`
    no, keep it and note it in the report.
    Also warn me if I have a `deny` on `git push*` (it blocks the pipeline's routine branch push: propose
    changing it to `ask`, and change it only on a yes). For `CLAUDE.md`, append the pipeline block under its own heading; if a section called "Agent
-   pipeline" exists, show the diff and ask. If a handoff file exists, propose adding only what the gate and
+   pipeline" exists, show the diff and ask. If `gwin-shared` markers are present (for example after
+   `gwinrules` ran): "Append the pipeline block after the gwin-shared:end marker." If there is no marker,
+   append at the end. If a handoff file exists, propose adding only what the gate and
    `/status` need (`Last updated` line, `Divergence:` line, the entry format in `handoff-example.md`). Apply
    nothing to an existing file until I say yes.
 
-6. **Copy and substitute.** Copy `agents/*.md` to `.claude/agents/`, `commands/*.md` to `.claude/commands/`,
+6. **Copy and substitute.** First add the line `pipeline-kit/` to `.git/info/exclude` (a local file that
+   git does not track; create it if absent; do not add the line twice). Then the untracked kit does not
+   show up in `git status`, and a Stop hook does not ask the session to commit it. Then copy `agents/*.md` to `.claude/agents/`, `commands/*.md` to `.claude/commands/`,
    `settings.json` to `.claude/settings.json`, append `CLAUDE-pipeline-block.md` to `CLAUDE.md`, and create
    the handoff file from `handoff-template.md` only if none exists. Substitute every placeholder; if
    `HOUSEKEEPING_NOTE` is "none", delete each line containing it instead. `pipeline-kit/tools/fill-placeholders.py`
@@ -105,7 +117,8 @@ Install the agent pipeline kit in this repository. The kit is in `pipeline-kit/`
    `CLAUDE.md`, the handoff file, plus `.github` and `docs/architecture/agent-pipeline.md` if installed
    (for example `python pipeline-kit/tools/fill-placeholders.py ../values.json .claude CLAUDE.md HANDOFF.md
    .github`). Never on `pipeline-kit/` itself or `.`, and never an absolute path or `..` (the tool refuses
-   all of them). Preview first, then `--write`. In a new handoff file, replace
+   all of them). The tool works from the current folder, so the kit may also sit in a folder outside the
+   repo; then call it by that path. Preview first, then `--write`. In a new handoff file, replace
    `YYYY-MM-DD` with today's date in my timezone and each `<sha>` with the real short SHA. Add `qa/` to
    `.gitignore` and create `claude/design-doc-index.md` if missing. Keep `‹x›` in Mermaid blocks as is.
 
@@ -124,6 +137,8 @@ Install the agent pipeline kit in this repository. The kit is in `pipeline-kit/`
    values used · project commands allowed (exact list) and excluded (with the reason) · check results (pass/fail, verbatim output for failures) · what I must do next. If the repo
    had no staging branch, "next" starts with: create and push it yourself
    (`git switch -c <staging> origin/<production> && git push origin <staging>`) and point a deployment at it.
+   End the report by asking me: "Remove the `pipeline-kit/` copy from this repo?" Remove it only on a yes,
+   and then also remove the `pipeline-kit/` line from `.git/info/exclude`. On a no, leave both in place.
 
 Rules for this install:
 - Do **not** run `/feature`, `/discover`, `/promote` or any subagent. Installing is copying files.
@@ -131,6 +146,7 @@ Rules for this install:
 - Don't commit or push unless I ask. If I do, use a new branch and open a PR; don't push to the
   production branch.
 - Don't delete anything. If you think a file should go, tell me.
-- Leave `pipeline-kit/` in place; I'll decide whether to keep it.
+- The only exception: the `pipeline-kit/` copy, and only if I say yes when you ask in the report (step 9).
+  Until then, leave it in place.
 
 ---
