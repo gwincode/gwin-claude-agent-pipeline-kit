@@ -71,7 +71,7 @@ If `Idea` is still empty, ask the owner for it in one line and stop. That is the
 - **code** — on approval, hand it the code prompt path. When it returns a PR, rename the session `{{PROJECT_NAME}} v<version>/PR#<n>/<feature>`.
 - **qa + reviewer** — run both, independently. Fix loop per the circuit breakers: 2 attempts per PR, same failure twice = stop, scope growth = `blocked` to the owner.
 - **Merge to `{{STAGING_BRANCH}}`** when every merge gate in `CLAUDE.md` holds, verified against artifacts (CI, the review on the PR, `qa/<n>/`), not agent claims.
-- **UAT hand-off** — confirm the {{DEPLOY_HOST}} staging deployment is `READY`, write the UAT checklist (one line per regression scenario / mockup state, staging URL per screen) into the feature's `{{HANDOFF_FILE}}` entry under `Awaiting owner UAT`, give the owner the staging URL + checklist, and **stop**.
+- **UAT hand-off** — confirm the {{DEPLOY_HOST}} staging deployment is `READY`, write the UAT checklist (one line per regression scenario / mockup state, staging URL per screen) into the feature's `{{HANDOFF_FILE}}` entry under `Awaiting owner UAT`, give the owner the staging URL + checklist, and **stop**. If `{{DEPLOY_HOST}}` is `none`, there is no deployment: skip the `READY` check, write the checklist without staging URLs (say "no deploy host: run locally per `CLAUDE.md`" in its place), and tell the owner so.
 - **GATE 2 — owner.** "UAT approved" → run the promotion flow in `CLAUDE.md`. "UAT fail: <notes>" → resume the same `code` with the notes (UAT cap: 2 cycles).
 
 ## 4. Rules for this run
